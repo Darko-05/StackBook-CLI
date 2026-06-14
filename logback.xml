@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <!-- Appender : affichage en console -->
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+
+        <encoder>
+
+            <!-- Format du message dans la console -->
+
+            <pattern>%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+
+        </encoder>
+
+    </appender>
+
+    <!-- Appender pour utilisateur -->
+
+    <appender name="USER_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+        <encoder>
+
+            <!-- Format du message dans la console -->
+
+            <pattern>%msg%n</pattern>
+            <charset>UTF-8</charset>
+
+        </encoder>
+
+    </appender>
+
+    <!-- Appender : enregistrement dans un fichier -->
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <!-- Nom du fichier principal -->
+
+        <file>data/logs</file>
+        <append>true</append>
+
+        <!-- Rotation automatique des fichiers de logs -->
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <!-- Nouveau fichier chaque jour -->
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- Conserve 7 jours d’anciens fichiers -->
+            <maxHistory>7</maxHistory>
+
+        </rollingPolicy>
+
+        <encoder>
+
+            <!-- Format d’écriture dans le fichier -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+
+        </encoder>
+
+    </appender>
+
+    <!-- Ici, "" a un niveau DEBUG -->
+    <logger name="Flux" level="TRACE" additivity="false">
+
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+
+    </logger>
+
+    <logger name="UserLogging" level="INFO" additivity="false">
+
+        <appender-ref ref="USER_STDOUT"/>
+
+    </logger>
+
+    <!-- Root logger : comportement global -->
+
+    <root level="INFO">
+
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+
+    </root>
+
+</configuration>
